@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trek Nepal Smart System</title>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://tile.openstreetmap.org">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <section class="brand">
+          <p class="eyebrow">WebGIS Mini Project</p>
+          <h1>Trek Nepal Smart System</h1>
+          <p class="subtitle">Spatial platform for trekking route analysis and travel guidance.</p>
+        </section>
+
+        <section class="stats-grid" aria-label="Trekking summary statistics">
+          <article>
+            <span id="totalRoutes">0</span>
+            <p>Routes</p>
+          </article>
+          <article>
+            <span id="avgDays">0</span>
+            <p>Avg days</p>
+          </article>
+          <article>
+            <span id="highestRoute">0 m</span>
+            <p>Highest</p>
+          </article>
+          <article>
+            <span id="totalFacilities">0</span>
+            <p>Places</p>
+          </article>
+        </section>
+
+        <section class="controls">
+          <div class="field">
+            <label for="difficultyFilter">Difficulty</label>
+            <select id="difficultyFilter">
+              <option value="all">All difficulties</option>
+              <option value="easy">Easy</option>
+              <option value="moderate">Moderate</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="seasonFilter">Best season</label>
+            <select id="seasonFilter">
+              <option value="all">All seasons</option>
+              <option value="spring">Spring</option>
+              <option value="autumn">Autumn</option>
+              <option value="winter">Winter</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="daysFilter">Maximum days</label>
+            <input id="daysFilter" type="range" min="4" max="18" value="18">
+            <div class="range-value"><span id="daysValue">18</span> days</div>
+          </div>
+          <div class="field">
+            <label for="bufferRadius">Route buffer</label>
+            <input id="bufferRadius" type="range" min="1" max="10" value="3">
+            <div class="range-value"><span id="bufferValue">3</span> km around selected route</div>
+          </div>
+          <label class="check-field">
+            <input id="facilitiesToggle" type="checkbox" checked>
+            <span>Show places on the way</span>
+          </label>
+          <div id="bufferSummary" class="buffer-summary">Select a route to run buffer analysis.</div>
+          <div class="legend" aria-label="Map symbol legend">
+            <span><i class="legend-dot homestay"></i>Homestay</span>
+            <span><i class="legend-dot clinic"></i>Clinic</span>
+            <span><i class="legend-dot waterfall"></i>Waterfall</span>
+            <span><i class="legend-dot viewpoint"></i>Viewpoint</span>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-title">
+            <h2>Available Routes</h2>
+            <button id="resetView" type="button">Reset</button>
+          </div>
+          <div id="routeList" class="route-list" aria-live="polite"></div>
+        </section>
+      </aside>
+
+      <section class="map-panel">
+        <div id="map"></div>
+        <div class="map-toolbar" aria-label="Map layer selector">
+          <button class="layer-button active" type="button" data-layer="topography">Topography</button>
+          <button class="layer-button" type="button" data-layer="satellite">Satellite</button>
+          <button class="layer-button" type="button" data-layer="streets">Streets</button>
+          <button class="layer-button" type="button" data-layer="dark">Dark</button>
+          <button id="locateUser" class="layer-button locate-button" type="button">GPS</button>
+        </div>
+        <div id="gpsStatus" class="gps-status" aria-live="polite">GPS is off</div>
+        <article id="infoPanel" class="info-panel">
+          <p class="eyebrow">Selected route</p>
+          <h2>Choose a trek route</h2>
+          <p>Click a route from the list or map to view distance, elevation, nearby places, buffer analysis and travel guidance.</p>
+        </article>
+        <article class="chart-panel">
+          <div class="chart-head">
+            <div>
+              <p class="eyebrow">Elevation profile</p>
+              <h2 id="chartTitle">Select a route</h2>
+            </div>
+            <span id="chartRange">0 m</span>
+          </div>
+          <canvas id="elevationChart" width="520" height="180"></canvas>
+        </article>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}?v=gps2"></script>
+  </body>
+</html>
+
+
+
